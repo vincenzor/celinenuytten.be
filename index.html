@@ -97,7 +97,7 @@
 					</p>
 
 					<p>Pour information, voici les domaines dans lesquels je suis formée :</p>
-					
+
 					<ul class="default">
 						<li>Psychogénéalogie (IBK, Agnès Paoli)</li>
 						<li>Touch for health 1 à 4 et métaphores (CFKB, Caroline Thienpont)</li>
@@ -159,17 +159,70 @@
 						<p>Pour une prise de rendez-vous ou tout simplement pour discuter remplissez le formulaire ci-dessous et je recontacterai dans les plus brefs délais.</p>
 					</header>
 					<div class="box">
-						<form method="post" action="#">
+						<form id="contact-form" method="post" action="https://formspree.io/mbjprvyn">
 							<div class="fields">
-								<div class="field half"><input type="text" name="name" placeholder="Votre nom" /></div>
+								<div class="field half"><input type="text" name="name" placeholder="Votre nom" required /></div>
 								<div class="field half"><input type="text" name="phone" placeholder="Votre N° de téléphone" /></div>
-								<div class="field"><input type="email" name="email" placeholder="Votre addresse email" /></div>
-								<div class="field"><textarea name="message" placeholder="Votre message" rows="6"></textarea></div>
+								<div class="field"><input type="email" name="_replyto" placeholder="Votre addresse email" required /></div>
+								<div class="field"><textarea name="message" placeholder="Votre message" rows="6" required></textarea></div>
 							</div>
 							<ul class="actions special">
-								<li><input type="submit" value="Envoyer" /></li>
+								<li>
+									<input type="submit" value="Envoyer" id="contact-form-submit" />
+									<div id="contact-form-status" class="hide">Merci pour votre message ! Je vous recontacte dans les plus brefs délais.</div>
+								</li>
 							</ul>
 						</form>
+
+						<script>
+						  window.addEventListener("DOMContentLoaded", function() {
+
+						    // get the form elements defined in your form HTML above
+
+						    var form = document.getElementById("contact-form");
+						    var button = document.getElementById("contact-form-submit");
+						    var status = document.getElementById("contact-form-status");
+
+						    // Success and Error functions for after the form is submitted
+
+						    function success() {
+						      form.reset();
+						      button.style = "display: none ";
+						      status.innerHTML = "Merci pour votre message ! Je vous recontacte dans les plus brefs délais.";
+									status.classList.remove("hide");
+						    }
+
+						    function error() {
+									status.classList.remove("hide");
+						      status.innerHTML = "Oops! Il y a eu un soucis...";
+						    }
+
+						    // handle the form submission event
+
+						    form.addEventListener("submit", function(ev) {
+						      ev.preventDefault();
+						      var data = new FormData(form);
+						      ajax(form.method, form.action, data, success, error);
+						    });
+						  });
+
+						  // helper function for sending an AJAX request
+
+						  function ajax(method, url, data, success, error) {
+						    var xhr = new XMLHttpRequest();
+						    xhr.open(method, url);
+						    xhr.setRequestHeader("Accept", "application/json");
+						    xhr.onreadystatechange = function() {
+						      if (xhr.readyState !== XMLHttpRequest.DONE) return;
+						      if (xhr.status === 200) {
+						        success(xhr.response, xhr.responseType);
+						      } else {
+						        error(xhr.status, xhr.response, xhr.responseType);
+						      }
+						    };
+						    xhr.send(data);
+						  }
+						</script>
 					</div>
 				</div>
 			</section>

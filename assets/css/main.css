@@ -72,6 +72,18 @@ input, select, textarea {
 	appearance: none;
 }
 
+.hide {
+	display: none;
+}
+
+#contact-form-status {
+	background: #d1e8a1;
+	padding: 20px;
+	text-align: center;
+	border-radius: 5px;
+	color: #536f1b;
+}
+
 /* Basic */
 
 	@-ms-viewport {
